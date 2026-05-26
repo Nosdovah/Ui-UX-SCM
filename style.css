@@ -1,0 +1,50 @@
+/* Required Chart Container Styling */
+.chart-container {
+  position: relative;
+  width: 100%;
+  max-width: 800px; /* Limits max width for readability */
+  margin-left: auto;
+  margin-right: auto;
+  height: 350px; /* Base height */
+  max-height: 450px;
+}
+
+@media (max-width: 768px) {
+  .chart-container {
+    height: 250px; /* Adjusted for mobile */
+  }
+}
+
+@media (min-width: 1024px) {
+  .chart-container {
+    height: 400px; /* Adjusted for desktop */
+  }
+}
+
+/* Custom Animations & UI flourishes (No SVG) */
+.fade-in-up {
+  animation: fadeInUp 0.8s ease-out forwards;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* CSS based tab indicator */
+.tab-active {
+  border-bottom: 3px solid #0ea5e9;
+  color: #0ea5e9;
+  font-weight: bold;
+}
+
+/* Decorative Background Pattern */
+.bg-pattern {
+  background-color: #f8fafc;
+  background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
+  background-size: 20px 20px;
+}
