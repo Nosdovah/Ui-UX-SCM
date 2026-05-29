@@ -42,19 +42,19 @@
   font-weight: bold;
 }
 
-/* Decorative Background Pattern - Warehouse Blueprint Grid */
+/* Decorative Background Pattern - Light Warehouse Blueprint Grid */
 .bg-pattern {
-  background-color: #0b0f19;
+  background-color: #f8fafc;
   background-image: 
-    linear-gradient(rgba(14, 165, 233, 0.07) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(14, 165, 233, 0.07) 1px, transparent 1px),
-    radial-gradient(rgba(14, 165, 233, 0.12) 1.5px, transparent 1.5px);
+    linear-gradient(rgba(14, 165, 233, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(14, 165, 233, 0.06) 1px, transparent 1px),
+    radial-gradient(rgba(14, 165, 233, 0.1) 1.5px, transparent 1.5px);
   background-size: 60px 60px, 60px 60px, 30px 30px;
   background-position: center center;
 }
 
 .warehouse-grid {
-  background-color: #070a13;
+  background-color: #f1f5f9;
   background-image: 
     linear-gradient(rgba(14, 165, 233, 0.04) 1px, transparent 1px),
     linear-gradient(90deg, rgba(14, 165, 233, 0.04) 1px, transparent 1px);
