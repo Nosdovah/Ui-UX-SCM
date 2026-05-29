@@ -202,13 +202,13 @@
           <p class="mt-4 max-w-3xl text-lg text-slate-500 mx-auto">
             Aplikasi manajemen inventaris saat ini seringkali gagal memenuhi
             ekspektasi pengguna. Berikut adalah keluhan nyata dari pengguna
-            aplikasi kompetitor di pasar. Klik untuk membaca lebih lanjut.
+            aplikasi kompetitor di pasar. Klik kartu ulasan untuk memperbesar gambar bukti otentik.
           </p>
         </div>
 
         <!-- Interactive Reviews Grid -->
         <div
-          class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
+          class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
           id="review-container"
         >
           <!-- Populated by JS -->
@@ -562,6 +562,11 @@
           <p class="mt-4 max-w-3xl text-lg text-slate-400 mx-auto">
             Dari proses autentikasi hingga manajemen gudang, pelajari bagaimana Invenio menghubungkan User (Staf/Manajer) dengan sistem WMS secara mulus.
           </p>
+          <div class="mt-6 flex justify-center">
+            <button onclick="openImageModal('assets/user flow diagram.png', 'Original User Flow Diagram')" class="inline-flex items-center gap-2 px-5 py-2.5 bg-slate-800 hover:bg-slate-700 text-invenio-400 hover:text-invenio-300 text-sm font-semibold rounded-lg border border-slate-700 transition shadow-lg hover:shadow-invenio-500/10 focus:outline-none">
+              <span>🖼️</span> Lihat Diagram Alur Asli (Gambar)
+            </button>
+          </div>
         </div>
 
         <div class="diagram-container bg-slate-800/50 p-8 rounded-2xl border border-slate-700 backdrop-blur-sm">
@@ -846,6 +851,15 @@
       </div>
     </footer>
 
+    <!-- Reusable Image Lightbox Modal -->
+    <div id="image-modal" class="fixed inset-0 bg-slate-950/90 z-50 hidden flex items-center justify-center p-4 backdrop-blur-md transition-all duration-300 opacity-0">
+      <button onclick="closeImageModal()" class="absolute top-6 right-6 text-white hover:text-slate-300 text-3xl font-bold bg-slate-800/80 w-12 h-12 rounded-full flex items-center justify-center transition focus:outline-none hover:scale-105 active:scale-95">&times;</button>
+      <div class="max-w-4xl max-h-[85vh] flex flex-col items-center">
+        <img id="modal-img" src="" alt="" class="max-w-full max-h-[75vh] rounded-lg shadow-2xl border border-slate-800 object-contain transform scale-95 transition-transform duration-300">
+        <p id="modal-caption" class="text-slate-300 mt-4 text-sm font-medium tracking-wide bg-slate-900/50 px-4 py-2 rounded-full border border-slate-800"></p>
+      </div>
+    </div>
+
     <!-- Application Logic -->
     <script>
       // --- 1. Navigation Logic ---
@@ -890,32 +904,40 @@
       const reviewsData = [
         {
           name: "Sean Anderson",
-          date: "Pengguna Aplikasi Lama",
-          text: "...ds and you cannot login anymore, it just redirects back to the login screen. It's like that for a long time now, no new fixes coming in, pretty useless.",
-          stars: "★☆☆☆☆",
-          highlight: "Bugs & Login Issues",
+          date: "24 Juni 2024",
+          highlight: "Hidden Costs & Misleading Pricing",
+          imgSrc: "assets/page5_img0.png"
         },
         {
-          name: "Bayu Aji",
-          date: "June 24, 2024",
-          text: "Terrible customer service... The pricing, although says free, is misleading... Example, 'Sales' is one service, 'Projects' is one service. For a small business trying to grow, the pricing is unattainable.",
-          stars: "★★☆☆☆",
-          highlight: "Hidden Costs & Support",
+          name: "Marko Vrhovac",
+          date: "15 Maret 2023",
+          highlight: "Bad UX & Hard to Setup Bills",
+          imgSrc: "assets/page5_img1.png"
         },
         {
-          name: "Anonim",
-          date: "March 15, 2023",
-          text: "Really bad app on web and mobile. If you pay premium you can not cancel it by your self. It is not even possible to see that you are subscribed... templates for bills are really hard to set up.",
-          stars: "★☆☆☆☆",
-          highlight: "Bad UX & Transparency",
+          name: "Bogdan Djukic",
+          date: "30 September 2025",
+          highlight: "Keyboard Overlay & Redirect Bugs",
+          imgSrc: "assets/page5_img2.png"
+        },
+        {
+          name: "Mónica Arenas",
+          date: "7 April 2026",
+          highlight: "Bad Usability & Hard to Navigate",
+          imgSrc: "assets/page5_img3.png"
         },
         {
           name: "Pengguna Google",
           date: "17 Januari 2020",
-          text: "Sering tidak ter-record datanya.",
-          stars: "★☆☆☆☆",
-          highlight: "Integritas Data Buruk",
+          highlight: "Integritas Data Buruk (Unrecorded)",
+          imgSrc: "assets/page5_img4.png"
         },
+        {
+          name: "Bayu Aji",
+          date: "15 Maret 2022",
+          highlight: "Gagal Login & Stuck Loading",
+          imgSrc: "assets/page5_img5.png"
+        }
       ];
 
       const reviewContainer = document.getElementById("review-container");
@@ -923,23 +945,32 @@
       reviewsData.forEach((review) => {
         const card = document.createElement("div");
         card.className =
-          "bg-slate-50 p-6 rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition cursor-pointer group";
+          "bg-white p-4 rounded-xl border border-slate-200 shadow-sm hover:shadow-md hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 cursor-pointer group flex flex-col justify-between h-full min-h-[220px]";
 
-        // Interaction: Truncate text initially, expand on click
         card.innerHTML = `
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <p class="font-bold text-slate-800">${review.name}</p>
-                        <p class="text-xs text-slate-400">${review.date}</p>
-                    </div>
-                    <span class="text-amber-400 tracking-widest">${review.stars}</span>
-                </div>
-                <div class="mb-4 inline-block px-2 py-1 bg-red-100 text-red-700 text-xs font-semibold rounded">
-                    Keluhan: ${review.highlight}
-                </div>
-                <p class="text-slate-600 text-sm italic line-clamp-3 group-hover:line-clamp-none transition-all duration-300">"${review.text}"</p>
-                <p class="text-xs text-invenio-500 mt-2 opacity-0 group-hover:opacity-100 transition-opacity text-right">Tampil Penuh</p>
-            `;
+          <div class="mb-3">
+            <span class="inline-block px-2 py-0.5 bg-red-50 text-red-600 text-[11px] font-semibold rounded border border-red-100">
+              Keluhan: ${review.highlight}
+            </span>
+          </div>
+          <div class="flex-1 flex items-center justify-center bg-slate-50/50 rounded-lg p-2 border border-slate-100/80 overflow-hidden mb-3 h-32">
+            <img src="${review.imgSrc}" alt="Review ${review.name}" class="max-w-full max-h-full object-contain filter group-hover:brightness-95 transition-all duration-200">
+          </div>
+          <div class="flex justify-between items-center border-t border-slate-100 pt-2">
+            <div>
+              <p class="font-bold text-slate-800 text-xs">${review.name}</p>
+              <p class="text-[10px] text-slate-400">${review.date}</p>
+            </div>
+            <span class="text-[11px] text-invenio-500 font-semibold group-hover:underline flex items-center gap-1">
+              Perbesar 🔍
+            </span>
+          </div>
+        `;
+
+        card.addEventListener("click", () => {
+          openImageModal(review.imgSrc, `Bukti Ulasan Asli: ${review.name} (${review.date})`);
+        });
+
         reviewContainer.appendChild(card);
       });
 
@@ -1138,6 +1169,48 @@
           stockChartInst.update();
         }
       };
+
+      // --- 5. Image Lightbox Modal Logic ---
+      const imageModal = document.getElementById("image-modal");
+      const modalImg = document.getElementById("modal-img");
+      const modalCaption = document.getElementById("modal-caption");
+
+      window.openImageModal = function (src, caption) {
+        modalImg.src = src;
+        modalCaption.innerText = caption;
+        imageModal.classList.remove("hidden");
+        // Trigger reflow for transition
+        setTimeout(() => {
+          imageModal.classList.remove("opacity-0");
+          imageModal.classList.add("opacity-100");
+          modalImg.classList.remove("scale-95");
+          modalImg.classList.add("scale-100");
+        }, 10);
+      };
+
+      window.closeImageModal = function () {
+        imageModal.classList.remove("opacity-100");
+        imageModal.classList.add("opacity-0");
+        modalImg.classList.remove("scale-100");
+        modalImg.classList.add("scale-95");
+        setTimeout(() => {
+          imageModal.classList.add("hidden");
+        }, 300);
+      };
+
+      // Close modal on background click
+      imageModal.addEventListener("click", (e) => {
+        if (e.target === imageModal || e.target.closest("button") && e.target.closest("button").getAttribute("onclick") === "closeImageModal()") {
+          closeImageModal();
+        }
+      });
+
+      // Escape key to close modal
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && !imageModal.classList.contains("hidden")) {
+          closeImageModal();
+        }
+      });
     </script>
   </body>
 </html>
