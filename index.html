@@ -826,21 +826,28 @@
             class="flex flex-wrap justify-between items-center mb-8 gap-4 border-b border-slate-200 pb-6"
           >
             <div
-              class="flex gap-2 bg-white p-1 rounded-lg border border-slate-200 shadow-sm"
+              class="flex gap-2 bg-white p-1 rounded-lg border border-slate-200 shadow-sm overflow-x-auto"
             >
               <button
                 onclick="updateChartData('weekly')"
-                class="px-4 py-1.5 text-sm font-medium rounded bg-invenio-100 text-invenio-700 focus:outline-none"
+                class="px-4 py-1.5 text-sm font-medium rounded bg-invenio-100 text-invenio-700 focus:outline-none whitespace-nowrap"
                 id="btn-weekly"
               >
                 Mingguan
               </button>
               <button
                 onclick="updateChartData('monthly')"
-                class="px-4 py-1.5 text-sm font-medium rounded text-slate-600 hover:bg-slate-100 focus:outline-none"
+                class="px-4 py-1.5 text-sm font-medium rounded text-slate-600 hover:bg-slate-100 focus:outline-none whitespace-nowrap"
                 id="btn-monthly"
               >
                 Bulanan
+              </button>
+              <button
+                onclick="updateChartData('yearly')"
+                class="px-4 py-1.5 text-sm font-medium rounded text-slate-600 hover:bg-slate-100 focus:outline-none whitespace-nowrap"
+                id="btn-yearly"
+              >
+                Tahunan
               </button>
             </div>
             <div class="text-sm text-slate-500">
@@ -1135,6 +1142,11 @@
           inbound: [600, 850, 700, 900],
           outbound: [550, 780, 800, 950],
         },
+        yearly: {
+          labels: ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agt", "Sep", "Okt", "Nov", "Des"],
+          inbound: [2100, 2400, 2800, 3100, 2900, 3200, 3500, 3600, 3800, 4100, 4500, 4800],
+          outbound: [2000, 2200, 2600, 3000, 2800, 3400, 3700, 3500, 3900, 4000, 4300, 5000],
+        },
       };
 
       const initCharts = () => {
@@ -1258,22 +1270,29 @@
       // Chart Update Logic
       window.updateChartData = function (period) {
         // Update Buttons State
-        const btnWeekly = document.getElementById("btn-weekly");
-        const btnMonthly = document.getElementById("btn-monthly");
+        const buttons = {
+          weekly: document.getElementById("btn-weekly"),
+          monthly: document.getElementById("btn-monthly"),
+          yearly: document.getElementById("btn-yearly")
+        };
         const statusTxt = document.getElementById("chart-status");
+        
+        // Reset all buttons
+        Object.values(buttons).forEach(btn => {
+          if(btn) btn.className = "px-4 py-1.5 text-sm font-medium rounded text-slate-600 hover:bg-slate-100 focus:outline-none whitespace-nowrap";
+        });
+        
+        // Active styling
+        if (buttons[period]) {
+           buttons[period].className = "px-4 py-1.5 text-sm font-medium rounded bg-invenio-100 text-invenio-700 focus:outline-none whitespace-nowrap";
+        }
 
         if (period === "weekly") {
-          btnWeekly.className =
-            "px-4 py-1.5 text-sm font-medium rounded bg-invenio-100 text-invenio-700 focus:outline-none";
-          btnMonthly.className =
-            "px-4 py-1.5 text-sm font-medium rounded text-slate-600 hover:bg-slate-100 focus:outline-none";
           statusTxt.innerText = "Pergerakan Stok Mingguan";
-        } else {
-          btnMonthly.className =
-            "px-4 py-1.5 text-sm font-medium rounded bg-invenio-100 text-invenio-700 focus:outline-none";
-          btnWeekly.className =
-            "px-4 py-1.5 text-sm font-medium rounded text-slate-600 hover:bg-slate-100 focus:outline-none";
+        } else if (period === "monthly") {
           statusTxt.innerText = "Pergerakan Stok Bulanan";
+        } else if (period === "yearly") {
+          statusTxt.innerText = "Pergerakan Stok Tahunan";
         }
 
         // Update Chart 1 Data
