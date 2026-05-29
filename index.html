@@ -91,6 +91,11 @@
               >Fitur Utama</a
             >
             <a
+              href="#alur"
+              class="text-slate-600 hover:text-invenio-500 transition-colors"
+              >Alur Sistem</a
+            >
+            <a
               href="#demo"
               class="text-slate-600 hover:text-invenio-500 transition-colors"
               >Demo Analitik</a
@@ -122,6 +127,11 @@
           href="#fitur"
           class="block px-4 py-3 text-slate-600 hover:bg-slate-50"
           >Fitur Utama</a
+        >
+        <a
+          href="#alur"
+          class="block px-4 py-3 text-slate-600 hover:bg-slate-50"
+          >Alur Sistem</a
         >
         <a href="#demo" class="block px-4 py-3 text-slate-600 hover:bg-slate-50"
           >Demo Analitik</a
@@ -534,6 +544,160 @@
               </div>
             </div>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- User Flow Diagram Section -->
+    <section id="alur" class="py-20 bg-slate-900 scroll-mt-20 overflow-hidden relative border-t border-slate-800">
+      <!-- Decorative Background elements -->
+      <div class="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-invenio-500 via-transparent to-transparent"></div>
+      
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="text-center mb-16">
+          <h2 class="text-base text-invenio-400 font-semibold tracking-wide uppercase">Alur Sistem Terintegrasi</h2>
+          <p class="mt-2 text-3xl leading-8 font-bold tracking-tight text-white sm:text-4xl">
+            Visualisasi Perjalanan Pengguna
+          </p>
+          <p class="mt-4 max-w-3xl text-lg text-slate-400 mx-auto">
+            Dari proses autentikasi hingga manajemen gudang, pelajari bagaimana Invenio menghubungkan User (Staf/Manajer) dengan sistem WMS secara mulus.
+          </p>
+        </div>
+
+        <div class="diagram-container bg-slate-800/50 p-8 rounded-2xl border border-slate-700 backdrop-blur-sm">
+          
+          <!-- PHASE 1: LOGIN -->
+          <div class="flex flex-col items-center mb-8">
+             <div class="text-invenio-400 font-bold mb-4 text-sm tracking-widest uppercase bg-slate-900/80 px-4 py-2 rounded-full border border-slate-700 shadow-inner">Tahap 1: Autentikasi User</div>
+             
+             <div class="flex gap-8 items-start w-full max-w-md mx-auto">
+               <div class="flex-1 flex flex-col items-center">
+                 <div class="flow-box">Buka Aplikasi</div>
+                 <div class="flow-arrow"></div>
+                 <div class="flow-decision">Sudah punya akun?</div>
+                 
+                 <div class="flex w-full mt-4">
+                   <!-- Branch Tidak -->
+                   <div class="w-1/2 flex flex-col items-center pr-2 border-r border-slate-700 relative">
+                     <span class="text-xs text-slate-400 mb-2 bg-slate-800 px-2 rounded absolute -top-3">Tidak</span>
+                     <div class="flow-box mt-4">Masuk ke layar Sign Up<br><span class="text-xs text-invenio-400">Input "Establish Your Ledger"</span></div>
+                     <div class="flow-arrow"></div>
+                     <div class="flow-box">Daftar Akun</div>
+                     <div class="flow-arrow"></div>
+                   </div>
+                   <!-- Branch Ya -->
+                   <div class="w-1/2 flex flex-col items-center pl-2 relative">
+                     <span class="text-xs text-slate-400 mb-2 bg-slate-800 px-2 rounded absolute -top-3">Ya</span>
+                     <div class="h-full w-px bg-slate-600 mt-4"></div>
+                   </div>
+                 </div>
+                 
+                 <div class="flow-box w-full mt-4 border-invenio-500 shadow-[0_0_15px_rgba(14,165,233,0.3)]">Input Kredensial di Sign In</div>
+               </div>
+             </div>
+          </div>
+          
+          <!-- Divider -->
+          <div class="w-full h-px bg-gradient-to-r from-transparent via-slate-600 to-transparent my-8"></div>
+          
+          <!-- PHASE 2: WMS INIT -->
+          <div class="flex flex-col items-center mb-12">
+             <div class="text-white font-bold mb-4 text-sm tracking-widest uppercase bg-invenio-600 px-4 py-2 rounded-full border border-invenio-400 shadow-lg">Tahap 2: WMS Initialization</div>
+             
+             <div class="w-full max-w-xs mx-auto flex flex-col items-center">
+                <div class="flow-box wms-box">Otentikasi & Inisiasi Sesi</div>
+                <div class="flow-arrow"></div>
+                <div class="flow-box wms-box font-bold text-lg">Render Command Center</div>
+             </div>
+          </div>
+          
+          <!-- PHASE 3: MODULES -->
+          <div class="text-invenio-400 font-bold mb-8 text-sm tracking-widest uppercase bg-slate-900/80 px-4 py-2 rounded-full border border-slate-700 shadow-inner w-max mx-auto">Tahap 3: Modul Fungsional</div>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8">
+             
+             <!-- Col 1: Pengaturan Sistem -->
+             <div class="flex flex-col items-center bg-slate-800/80 p-4 rounded-xl border border-slate-700 h-full">
+                <div class="flow-pill">PENGATURAN SISTEM</div>
+                <span class="text-xs text-slate-400 mb-4">(User)</span>
+                
+                <div class="flow-box">Buka Precision Setup (Settings)</div>
+                <div class="flow-arrow"></div>
+                <div class="flow-box">Konfigurasi Zone Mapping / Stock Alerts</div>
+             </div>
+             
+             <!-- Col 2: Monitoring Dashboard -->
+             <div class="flex flex-col items-center bg-slate-800/80 p-4 rounded-xl border border-slate-700 h-full">
+                <div class="flow-pill">MONITORING DASHBOARD</div>
+                <span class="text-xs text-slate-400 mb-4">(User)</span>
+                
+                <div class="flow-box">Pantau Portfolio Value & Critical Alerts</div>
+                <div class="flow-arrow"></div>
+                <div class="flow-box border-amber-500/50 shadow-[0_0_10px_rgba(245,158,11,0.2)]">Cek 14 Pending Shipments</div>
+             </div>
+             
+             <!-- Col 3: Inventory Workflow -->
+             <div class="flex flex-col items-center bg-slate-800/80 p-4 rounded-xl border border-slate-700 h-full">
+                <div class="flow-pill">INVENTORY WORKFLOW</div>
+                <span class="text-xs text-slate-400 mb-4">(User & WMS)</span>
+                
+                <div class="flow-box">Buka The Global Inventory</div>
+                <div class="flow-arrow"></div>
+                <div class="flow-box text-xs p-2 bg-slate-700">Pencarian SKU / Scan QR Display</div>
+                <div class="flow-arrow"></div>
+                <div class="flow-box">Lihat Asset Detail</div>
+                <div class="flow-arrow"></div>
+                <div class="flow-decision">Butuh Penyesuaian Stok?</div>
+                
+                <div class="flex w-full mt-4 gap-2">
+                   <div class="w-1/3 flex flex-col items-center border-r border-slate-600">
+                      <span class="text-xs text-slate-400">Tidak</span>
+                   </div>
+                   <div class="w-2/3 flex flex-col items-center">
+                      <span class="text-xs text-slate-400 mb-2">Ya</span>
+                      <div class="flow-box">Buka Add Stock Action</div>
+                      <div class="flow-arrow"></div>
+                      <div class="flow-box text-xs text-left">
+                         Input Alasan:<br>
+                         <span class="text-invenio-400">• Restock from Supplier</span><br>
+                         <span class="text-invenio-400">• Customer Return</span><br>
+                         <span class="text-invenio-400">• Found in Warehouse</span>
+                      </div>
+                      <div class="flow-arrow"></div>
+                      <div class="flow-box">Confirm Transaction</div>
+                      <div class="flow-arrow"></div>
+                      <div class="flow-box wms-box">Update Ledger & Timeline</div>
+                   </div>
+                </div>
+             </div>
+             
+             <!-- Col 4: Reporting -->
+             <div class="flex flex-col items-center bg-slate-800/80 p-4 rounded-xl border border-slate-700 h-full">
+                <div class="flow-pill">REPORTING & ANALYTICS</div>
+                <span class="text-xs text-slate-400 mb-4">(WMS)</span>
+                
+                <div class="flow-box wms-box">Buka Menu Reports</div>
+                <div class="flow-arrow"></div>
+                <div class="flex w-full gap-2">
+                   <div class="w-1/2 flex flex-col items-center">
+                      <div class="flow-box text-xs bg-slate-700 border-slate-600 h-full flex flex-col justify-center">Performance Insights</div>
+                      <div class="flow-arrow"></div>
+                      <div class="flow-box text-xs h-full flex flex-col justify-center">Analisis Turnover</div>
+                   </div>
+                   <div class="w-1/2 flex flex-col items-center">
+                      <div class="flow-box text-xs bg-slate-700 border-slate-600 h-full flex flex-col justify-center">Quantity Insights</div>
+                      <div class="flow-arrow"></div>
+                      <div class="flow-box text-xs h-full flex flex-col justify-center">Analisis Inbound vs Outbound</div>
+                   </div>
+                </div>
+                <div class="w-full flex justify-center mt-4">
+                  <div class="flow-arrow"></div>
+                </div>
+                <div class="flow-box bg-slate-700 mt-0">Toggle Periode: Week / Month / Year</div>
+             </div>
+             
+          </div>
+
         </div>
       </div>
     </section>

@@ -48,3 +48,94 @@
   background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
   background-size: 20px 20px;
 }
+
+/* Custom User Flow Diagram Styles */
+.diagram-container {
+  font-family: 'Inter', sans-serif;
+}
+.flow-box {
+  background: #1e293b;
+  border: 1px solid #334155;
+  color: #f8fafc;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  text-align: center;
+  width: 100%;
+  font-size: 0.875rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+  z-index: 10;
+  position: relative;
+}
+.flow-box:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 15px -3px rgba(14, 165, 233, 0.2);
+  border-color: #0ea5e9;
+}
+.wms-box {
+  background: #0ea5e9 !important;
+  border-color: #0284c7 !important;
+  color: white !important;
+}
+.flow-pill {
+  background: #0284c7;
+  color: white;
+  padding: 0.5rem 1.5rem;
+  border-radius: 9999px;
+  font-weight: 700;
+  text-align: center;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+  box-shadow: 0 0 15px rgba(14,165,233,0.3);
+  z-index: 10;
+  position: relative;
+  width: max-content;
+}
+.flow-decision {
+  background: #334155;
+  border: 2px solid #0ea5e9;
+  border-radius: 0.5rem;
+  padding: 0.75rem;
+  text-align: center;
+  font-size: 0.75rem;
+  color: white;
+  width: 100%;
+  font-weight: bold;
+  position: relative;
+  z-index: 10;
+}
+.flow-decision::before {
+  content: '?';
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background: #0ea5e9;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: bold;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+.flow-arrow {
+  width: 2px;
+  height: 24px;
+  background-color: #475569;
+  position: relative;
+  margin: 0 auto;
+}
+.flow-arrow::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 6px 4px 0 4px;
+  border-style: solid;
+  border-color: #475569 transparent transparent transparent;
+}
