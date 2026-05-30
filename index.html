@@ -682,7 +682,7 @@
             Modul Fungsional
           </div>
 
-          <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8">
+          <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
             <!-- Col 1: Pengaturan Sistem -->
             <div
               class="flex flex-col items-center bg-slate-800/80 p-4 rounded-xl border border-slate-700 h-full"
@@ -724,8 +724,17 @@
 
               <div class="flow-box">Buka The Global Inventory</div>
               <div class="flow-arrow"></div>
-              <div class="flow-box text-xs p-2 bg-slate-700">
-                Pencarian SKU / Scan QR Display
+              <div class="flex w-full gap-2">
+                <div class="w-1/2 flex flex-col items-center">
+                  <div class="flow-box text-xs h-full flex items-center justify-center p-2">
+                    Gunakan Bar Pencarian SKU
+                  </div>
+                </div>
+                <div class="w-1/2 flex flex-col items-center">
+                  <div class="flow-box text-xs h-full flex items-center justify-center p-2">
+                    Gunakan Scanner Display (Scan QR)
+                  </div>
+                </div>
               </div>
               <div class="flow-arrow"></div>
               <div class="flow-box">Lihat Asset Detail</div>
@@ -743,7 +752,7 @@
                   <div class="flow-box">Buka Add Stock Action</div>
                   <div class="flow-arrow"></div>
                   <div class="flow-box text-xs text-left">
-                    Input Alasan:<br />
+                    Input Jumlah & Pilih Alasan:<br />
                     <span class="text-invenio-400">• Restock from Supplier</span
                     ><br />
                     <span class="text-invenio-400">• Customer Return</span
@@ -753,7 +762,7 @@
                   <div class="flow-arrow"></div>
                   <div class="flow-box">Confirm Transaction</div>
                   <div class="flow-arrow"></div>
-                  <div class="flow-box wms-box">Update Ledger & Timeline</div>
+                  <div class="flow-box wms-box">Update Ledger & Inventory Timeline</div>
                 </div>
               </div>
             </div>
@@ -770,22 +779,22 @@
               <div class="flex w-full gap-2">
                 <div class="w-1/2 flex flex-col items-center">
                   <div
-                    class="flow-box text-xs bg-slate-700 border-slate-600 h-full flex flex-col justify-center"
+                    class="flow-box text-xs h-full flex flex-col justify-center"
                   >
-                    Performance Insights
+                    Pilih Performance Insights
                   </div>
                   <div class="flow-arrow"></div>
                   <div
                     class="flow-box text-xs h-full flex flex-col justify-center"
                   >
-                    Analisis Turnover
+                    Analisis Turnover & Fulfillment
                   </div>
                 </div>
                 <div class="w-1/2 flex flex-col items-center">
                   <div
-                    class="flow-box text-xs bg-slate-700 border-slate-600 h-full flex flex-col justify-center"
+                    class="flow-box text-xs h-full flex flex-col justify-center"
                   >
-                    Quantity Insights
+                    Pilih Quantity Insights
                   </div>
                   <div class="flow-arrow"></div>
                   <div
@@ -798,8 +807,68 @@
               <div class="w-full flex justify-center mt-4">
                 <div class="flow-arrow"></div>
               </div>
-              <div class="flow-box bg-slate-700 mt-0">
+              <div class="flow-box mt-0">
                 Toggle Periode: Week / Month / Year
+              </div>
+            </div>
+
+            <!-- Col 5: Notification & Alerts System -->
+            <div
+              class="flex flex-col items-center bg-slate-800/80 p-4 rounded-xl border border-slate-700 h-full xl:col-span-2"
+            >
+              <div class="flow-pill">NOTIFICATION & ALERTS SYSTEM</div>
+              <span class="text-xs text-slate-300 mb-4">(WMS)</span>
+
+              <div class="flow-box wms-box">Terima Push Notification / Buka Widget Critical Alerts</div>
+              <div class="flow-arrow"></div>
+              <div class="flow-decision w-auto px-6">Kategori Notifikasi?</div>
+
+              <div class="flex w-full mt-4 gap-4 flex-1">
+                <!-- Branch: Manajemen Inventaris -->
+                <div class="w-1/2 flex flex-col items-center border-r border-slate-600 pr-4">
+                  <span class="text-xs text-slate-300 mb-2">Manajemen Inventaris</span>
+                  <div class="flow-decision mb-4 w-auto px-6">Tipe Alert?</div>
+                  
+                  <div class="flex w-full gap-2 flex-1">
+                    <!-- Low Stock -->
+                    <div class="w-1/2 flex flex-col items-center">
+                      <span class="text-xs text-slate-400 mb-2 text-center h-8 flex items-end justify-center">1. Low Stock</span>
+                      <div class="flow-box text-xs wms-box flex-1 flex items-center justify-center">Sistem mengarahkan langsung ke Asset Detail SKU kritis</div>
+                      <div class="flow-arrow shrink-0"></div>
+                      <div class="flow-box text-xs flex-1 flex items-center justify-center">User membuka Add Stock Action untuk proses restock</div>
+                    </div>
+                    <!-- Capacity Warning -->
+                    <div class="w-1/2 flex flex-col items-center pl-2 border-l border-slate-600">
+                      <span class="text-xs text-slate-400 mb-2 text-center h-8 flex items-end justify-center">2. Capacity Warning</span>
+                      <div class="flow-box text-xs wms-box flex-1 flex items-center justify-center">Sistem menampilkan peringatan kapasitas kritis (94%)</div>
+                      <div class="flow-arrow shrink-0"></div>
+                      <div class="flow-box text-xs flex-1 flex items-center justify-center">User diarahkan ke Precision Setup (Settings) untuk optimasi tata letak alokasi zona gudang</div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Branch: Logistik -->
+                <div class="w-1/2 flex flex-col items-center pl-4">
+                  <span class="text-xs text-slate-300 mb-2">Logistik</span>
+                  <div class="flow-decision mb-4 w-auto px-6">Tipe Alert?</div>
+
+                  <div class="flex w-full gap-2 flex-1">
+                    <!-- Supplier Arrival -->
+                    <div class="w-1/2 flex flex-col items-center pr-2 border-r border-slate-600">
+                      <span class="text-xs text-slate-400 mb-2 text-center h-8 flex items-end justify-center">1. Supplier Arrival</span>
+                      <div class="flow-box text-xs wms-box flex-1 flex items-center justify-center">Sistem menampilkan notifikasi kedatangan truk di loading dock</div>
+                      <div class="flow-arrow shrink-0"></div>
+                      <div class="flow-box text-xs flex-1 flex items-center justify-center">User diarahkan membuka Scanner Display untuk scan QR Surat Jalan</div>
+                    </div>
+                    <!-- Pending Shipment -->
+                    <div class="w-1/2 flex flex-col items-center pl-2">
+                      <span class="text-xs text-slate-400 mb-2 text-center h-8 flex items-end justify-center">2. Pending Shipment</span>
+                      <div class="flow-box text-xs wms-box flex-1 flex items-center justify-center">Sistem memberikan peringatan keterlambatan pengiriman armada</div>
+                      <div class="flow-arrow shrink-0"></div>
+                      <div class="flow-box text-xs flex-1 flex items-center justify-center">User diarahkan ke menu Reports (Performance Insights) untuk mengevaluasi log bottleneck distribusi</div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
