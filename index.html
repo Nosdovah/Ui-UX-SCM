@@ -1173,21 +1173,58 @@
     >
       <button
         onclick="closeImageModal()"
-        class="absolute top-6 right-6 text-white hover:text-slate-300 text-3xl font-bold bg-slate-800/80 w-12 h-12 rounded-full flex items-center justify-center transition focus:outline-none hover:scale-105 active:scale-95"
+        class="absolute top-6 right-6 text-white hover:text-slate-300 text-3xl font-bold bg-slate-800/80 w-12 h-12 rounded-full flex items-center justify-center transition focus:outline-none hover:scale-105 active:scale-95 z-50"
       >
         &times;
       </button>
-      <div class="max-w-4xl max-h-[85vh] flex flex-col items-center">
-        <img
-          id="modal-img"
-          src=""
-          alt=""
-          class="max-w-full max-h-[75vh] rounded-lg shadow-2xl border border-slate-800 object-contain transform scale-95 transition-transform duration-300"
-        />
-        <p
-          id="modal-caption"
-          class="text-slate-300 mt-4 text-sm font-medium tracking-wide bg-slate-900/50 px-4 py-2 rounded-full border border-slate-800"
-        ></p>
+      
+      <!-- Modal Content Wrapper -->
+      <div id="modal-content" class="w-full max-w-5xl flex flex-col items-center justify-center pointer-events-auto">
+        <!-- Image Container with overflow hidden -->
+        <div id="modal-img-container" class="w-full h-[65vh] sm:h-[75vh] overflow-hidden relative flex items-center justify-center rounded-xl bg-slate-950/60 border border-slate-800 cursor-grab active:cursor-grabbing shadow-2xl">
+          <img
+            id="modal-img"
+            src=""
+            alt=""
+            class="max-w-full max-h-full object-contain pointer-events-none select-none origin-center"
+            style="transform: translate(0px, 0px) scale(1);"
+          />
+        </div>
+        
+        <!-- Bottom Controls & Caption -->
+        <div class="flex flex-col sm:flex-row items-center justify-between w-full mt-4 gap-4 px-2">
+          <p
+            id="modal-caption"
+            class="text-slate-300 text-sm font-medium tracking-wide bg-slate-900/60 px-4 py-2 rounded-full border border-slate-800 text-center sm:text-left animate-fade-in"
+          ></p>
+          
+          <!-- Zoom Controls -->
+          <div class="flex items-center gap-2 bg-slate-900/80 border border-slate-700 px-3 py-1.5 rounded-full shadow-lg">
+            <button
+              id="zoom-out-btn"
+              class="text-slate-400 hover:text-white transition p-1 hover:bg-slate-800 rounded-full flex items-center justify-center focus:outline-none"
+              title="Zoom Out"
+            >
+              <span class="material-symbols-outlined text-lg">zoom_out</span>
+            </button>
+            <span id="zoom-level" class="text-xs text-slate-350 font-mono min-w-[40px] text-center">100%</span>
+            <button
+              id="zoom-in-btn"
+              class="text-slate-400 hover:text-white transition p-1 hover:bg-slate-800 rounded-full flex items-center justify-center focus:outline-none"
+              title="Zoom In"
+            >
+              <span class="material-symbols-outlined text-lg">zoom_in</span>
+            </button>
+            <div class="w-px h-4 bg-slate-700 mx-1"></div>
+            <button
+              id="zoom-reset-btn"
+              class="text-slate-400 hover:text-white transition p-1 hover:bg-slate-800 rounded-full flex items-center justify-center focus:outline-none"
+              title="Reset Zoom"
+            >
+              <span class="material-symbols-outlined text-lg">restart_alt</span>
+            </button>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -1549,33 +1586,209 @@
         }
       };
 
-      // --- 5. Image Lightbox Modal Logic ---
+      // --- 5. Image Lightbox Modal Logic & Zoom/Pan Support ---
       const imageModal = document.getElementById("image-modal");
       const modalImg = document.getElementById("modal-img");
       const modalCaption = document.getElementById("modal-caption");
+      const container = document.getElementById("modal-img-container");
+      const zoomLevelEl = document.getElementById("zoom-level");
+
+      let currentScale = 1;
+      let minScale = 0.5;
+      let maxScale = 5;
+      let translateX = 0;
+      let translateY = 0;
+      let isDragging = false;
+      let startX = 0;
+      let startY = 0;
+
+      function updateImageTransform(withTransition = false) {
+        if (withTransition) {
+          modalImg.style.transition = "transform 0.2s ease-out";
+        } else {
+          modalImg.style.transition = "none";
+        }
+        modalImg.style.transform = `translate(${translateX}px, ${translateY}px) scale(${currentScale})`;
+        if (zoomLevelEl) {
+          zoomLevelEl.innerText = `${Math.round(currentScale * 100)}%`;
+        }
+      }
 
       window.openImageModal = function (src, caption) {
+        currentScale = 1;
+        translateX = 0;
+        translateY = 0;
+        
         modalImg.src = src;
         modalCaption.innerText = caption;
+        updateImageTransform(false);
+        
         imageModal.classList.remove("hidden");
         // Trigger reflow for transition
         setTimeout(() => {
           imageModal.classList.remove("opacity-0");
           imageModal.classList.add("opacity-100");
-          modalImg.classList.remove("scale-95");
-          modalImg.classList.add("scale-100");
         }, 10);
       };
 
       window.closeImageModal = function () {
         imageModal.classList.remove("opacity-100");
         imageModal.classList.add("opacity-0");
-        modalImg.classList.remove("scale-100");
-        modalImg.classList.add("scale-95");
         setTimeout(() => {
           imageModal.classList.add("hidden");
         }, 300);
       };
+
+      // Mouse drag to pan
+      container.addEventListener("mousedown", (e) => {
+        if (e.button !== 0) return; // Only left click
+        isDragging = true;
+        startX = e.clientX - translateX;
+        startY = e.clientY - translateY;
+        container.classList.replace("cursor-grab", "cursor-grabbing");
+      });
+
+      window.addEventListener("mousemove", (e) => {
+        if (!isDragging) return;
+        translateX = e.clientX - startX;
+        translateY = e.clientY - startY;
+        updateImageTransform(false);
+      });
+
+      window.addEventListener("mouseup", () => {
+        if (isDragging) {
+          isDragging = false;
+          container.classList.replace("cursor-grabbing", "cursor-grab");
+        }
+      });
+
+      // Wheel to zoom (centered on cursor)
+      container.addEventListener("wheel", (e) => {
+        e.preventDefault();
+        const zoomIntensity = 0.1;
+        const delta = e.deltaY < 0 ? 1 : -1;
+        
+        const rect = container.getBoundingClientRect();
+        const mouseX = e.clientX - rect.left - rect.width / 2;
+        const mouseY = e.clientY - rect.top - rect.height / 2;
+
+        const previousScale = currentScale;
+        currentScale += delta * zoomIntensity * currentScale;
+        currentScale = Math.max(minScale, Math.min(maxScale, currentScale));
+
+        const scaleRatio = currentScale / previousScale;
+        translateX = mouseX - (mouseX - translateX) * scaleRatio;
+        translateY = mouseY - (mouseY - translateY) * scaleRatio;
+
+        updateImageTransform(true);
+      }, { passive: false });
+
+      // Double click to zoom toggle
+      container.addEventListener("dblclick", (e) => {
+        const rect = container.getBoundingClientRect();
+        const mouseX = e.clientX - rect.left - rect.width / 2;
+        const mouseY = e.clientY - rect.top - rect.height / 2;
+
+        if (currentScale > 1.05) {
+          currentScale = 1;
+          translateX = 0;
+          translateY = 0;
+        } else {
+          const previousScale = currentScale;
+          currentScale = 2;
+          const scaleRatio = currentScale / previousScale;
+          translateX = mouseX - (mouseX - translateX) * scaleRatio;
+          translateY = mouseY - (mouseY - translateY) * scaleRatio;
+        }
+        updateImageTransform(true);
+      });
+
+      // Touch support for mobile pinch-to-zoom and drag
+      let initialPinchDistance = 0;
+      let initialScale = 1;
+      let isPinching = false;
+
+      function getDistance(t1, t2) {
+        return Math.hypot(t1.clientX - t2.clientX, t1.clientY - t2.clientY);
+      }
+
+      function getMidpoint(t1, t2) {
+        return {
+          x: (t1.clientX + t2.clientX) / 2,
+          y: (t1.clientY + t2.clientY) / 2
+        };
+      }
+
+      container.addEventListener("touchstart", (e) => {
+        if (e.touches.length === 1) {
+          isDragging = true;
+          isPinching = false;
+          startX = e.touches[0].clientX - translateX;
+          startY = e.touches[0].clientY - translateY;
+        } else if (e.touches.length === 2) {
+          isDragging = false;
+          isPinching = true;
+          initialPinchDistance = getDistance(e.touches[0], e.touches[1]);
+          initialScale = currentScale;
+        }
+      });
+
+      container.addEventListener("touchmove", (e) => {
+        if (isDragging && e.touches.length === 1) {
+          translateX = e.touches[0].clientX - startX;
+          translateY = e.touches[0].clientY - startY;
+          updateImageTransform(false);
+        } else if (isPinching && e.touches.length === 2) {
+          const currentDistance = getDistance(e.touches[0], e.touches[1]);
+          if (initialPinchDistance > 0) {
+            const previousScale = currentScale;
+            currentScale = (currentDistance / initialPinchDistance) * initialScale;
+            currentScale = Math.max(minScale, Math.min(maxScale, currentScale));
+            
+            const mid = getMidpoint(e.touches[0], e.touches[1]);
+            const rect = container.getBoundingClientRect();
+            const mouseX = mid.x - rect.left - rect.width / 2;
+            const mouseY = mid.y - rect.top - rect.height / 2;
+            
+            const scaleRatio = currentScale / previousScale;
+            translateX = mouseX - (mouseX - translateX) * scaleRatio;
+            translateY = mouseY - (mouseY - translateY) * scaleRatio;
+            
+            updateImageTransform(false);
+          }
+        }
+      });
+
+      container.addEventListener("touchend", () => {
+        isDragging = false;
+        isPinching = false;
+      });
+
+      // Button controls
+      document.getElementById("zoom-in-btn").addEventListener("click", () => {
+        const previousScale = currentScale;
+        currentScale = Math.min(maxScale, currentScale * 1.3);
+        const scaleRatio = currentScale / previousScale;
+        translateX = translateX * scaleRatio;
+        translateY = translateY * scaleRatio;
+        updateImageTransform(true);
+      });
+
+      document.getElementById("zoom-out-btn").addEventListener("click", () => {
+        const previousScale = currentScale;
+        currentScale = Math.max(minScale, currentScale / 1.3);
+        const scaleRatio = currentScale / previousScale;
+        translateX = translateX * scaleRatio;
+        translateY = translateY * scaleRatio;
+        updateImageTransform(true);
+      });
+
+      document.getElementById("zoom-reset-btn").addEventListener("click", () => {
+        currentScale = 1;
+        translateX = 0;
+        translateY = 0;
+        updateImageTransform(true);
+      });
 
       // Close modal on background click
       imageModal.addEventListener("click", (e) => {
